@@ -1,0 +1,71 @@
+{
+  "target": "http://127.0.0.1:3000",
+  "startedAt": "2026-08-28T05:36:46.313Z",
+  "requestCount": 12,
+  "findings": [
+    {
+      "type": "SQL injection",
+      "endpoint": "/api/products?search=",
+      "severity": "high",
+      "evidence": "Baseline returned 0 products; SQLi probe returned HTTP 200 and 3 products.",
+      "remediation": "Use parameterized SQL queries and validate search input."
+    },
+    {
+      "type": "Reflected XSS",
+      "endpoint": "/search?q=",
+      "severity": "medium",
+      "evidence": "The response contains the unescaped marker \"scanner-xss-marker\".",
+      "remediation": "HTML-escape reflected values and apply a restrictive Content Security Policy."
+    },
+    {
+      "type": "Missing authentication/authorization",
+      "endpoint": "/api/admin/products",
+      "severity": "critical",
+      "evidence": "Unauthenticated request returned HTTP 200.",
+      "remediation": "Require a server-side session and role check before serving the resource."
+    },
+    {
+      "type": "Missing authentication/authorization",
+      "endpoint": "/api/admin/messages",
+      "severity": "critical",
+      "evidence": "Unauthenticated request returned HTTP 200.",
+      "remediation": "Require a server-side session and role check before serving the resource."
+    },
+    {
+      "type": "Missing authentication/authorization",
+      "endpoint": "/api/admin/users",
+      "severity": "critical",
+      "evidence": "Unauthenticated request returned HTTP 200.",
+      "remediation": "Require a server-side session and role check before serving the resource."
+    },
+    {
+      "type": "IDOR / broken access control",
+      "endpoint": "/api/orders/1",
+      "severity": "high",
+      "evidence": "Seeded customer Casey received another customer's order with user_id=1.",
+      "remediation": "Constrain the resource query by both resource ID and authenticated owner ID."
+    },
+    {
+      "type": "Verbose error disclosure",
+      "endpoint": "/api/debug/error",
+      "severity": "medium",
+      "evidence": "HTTP 500 response exposed: Demo debug failure, Error:, at , stack.",
+      "remediation": "Return a generic error to clients and log diagnostic details server-side."
+    },
+    {
+      "type": "Missing security headers",
+      "endpoint": "/api/health",
+      "severity": "low",
+      "evidence": "Missing headers: content-security-policy, x-frame-options, x-content-type-options.",
+      "remediation": "Set a baseline security-header policy at the server boundary."
+    }
+  ],
+  "checks": [
+    "SQL injection differential response",
+    "reflected XSS marker",
+    "unauthenticated protected/admin routes",
+    "IDOR ownership check",
+    "verbose error disclosure",
+    "security response headers"
+  ]
+}

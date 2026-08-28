@@ -1,0 +1,11 @@
+{
+  "name": "small-business-security-practice",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Local-only security testing practice monorepo",
+  "scripts": {
+    "install:all": "npm install --prefix demo-site/frontend",
+    "dev": "npm run dev --prefix demo-site/frontend",
+    "build": "npm run build --prefix demo-site/frontend"
+  }
+}
