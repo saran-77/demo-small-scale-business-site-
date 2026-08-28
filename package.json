@@ -3,9 +3,12 @@
   "private": true,
   "version": "1.0.0",
   "description": "Local-only security testing practice monorepo",
+  "workspaces": [
+    "demo-site/frontend"
+  ],
   "scripts": {
-    "install:all": "npm install --prefix demo-site/frontend",
-    "dev": "npm run dev --prefix demo-site/frontend",
-    "build": "npm run build --prefix demo-site/frontend"
+    "install:all": "npm install",
+    "dev": "npm run dev --workspace demo-site/frontend",
+    "build": "npm run build --workspace demo-site/frontend"
   }
 }
